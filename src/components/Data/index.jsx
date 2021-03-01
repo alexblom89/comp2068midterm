@@ -6,6 +6,7 @@ const Data = () => {
   const APILINK = 'https://jsonplaceholder.typicode.com/posts';
   const [data, setData] = useState([]);
   const posts = useMemo(() => data, [data]);
+  const [order, setOrder] = useState([]);
 
   useEffect(() => {
     axios.get(APILINK)
@@ -14,29 +15,12 @@ const Data = () => {
          });
   }, []);
 
-  // const filter = event => {
-  //   event.persist();
-  //   const value = event.target.value;
-    
-  //   if (value.length === 0) {
-  //     setData([...dataSet]);
-  //   } else if (isNaN(value)) {
-  //     const regex = new RegExp(value);
-  //     setData([...dataSet.filter(datum => (regex.test(datum.title) || regex.test(datum.body)))]);
-  //   } else {
-  //     const num = Number(value);
-  //     setData([...dataSet.filter(datum => (Number(datum.userId) === num || Number(datum.id) === num))]);
-  //   }
-  // };
-
   const sort = event => {
     event.persist();
     const { name, type } = event.target.dataset;
     
     let sorted;
-    console.log(type);
-    console.log(name);
-    console.log(event.target.dataset);
+    
     if (type === "int")
       sorted = data.sort((a, b) => Number(a[name]) - Number(b[name]));
     else
@@ -46,12 +30,12 @@ const Data = () => {
         return 0;
       });
 
-    // if (order) {
-    //   sorted = sorted.reverse();
-    //   setOrder(false);
-    // } else {
-    //   setOrder(true);
-    // }
+    if (order) {
+      sorted = sorted.reverse();
+      setOrder(false);
+    } else {
+      setOrder(true);
+    }
 
     setData([...sorted]);
   };
@@ -79,18 +63,18 @@ const Data = () => {
         <table className="table">
           <thead>
             <tr>
-              <td data-name="userId" data-type="int" onClick={sort}>
-                <h3>User Id</h3>
-              </td>
-              <td data-name="id" data-type="int" onClick={sort}>
-                <h3>Post Id</h3>
-              </td>
-              <td data-name="title" data-type="text" onClick={sort}>
-                <h3>Title</h3>
-              </td>
-              <td data-name="body" data-type="text" onClick={sort}>
-                <h3>Body</h3>
-              </td>
+              <th data-name="userId" data-type="int" order="true" onClick={sort}>
+                User Id
+              </th>
+              <th data-name="id" data-type="int" onClick={sort}>
+                Post Id
+              </th>
+              <th data-name="title" data-type="text" onClick={sort}>
+                Title
+              </th>
+              <th data-name="body" data-type="text" onClick={sort}>
+                Body
+              </th>
             </tr>
           </thead>
           <tbody>
