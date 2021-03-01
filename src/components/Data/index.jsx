@@ -32,10 +32,11 @@ const Data = () => {
   const sort = event => {
     event.persist();
     const { name, type } = event.target.dataset;
-    // const [sortedColumn, setSortedColumn] = useState(null);
     
     let sorted;
     console.log(type);
+    console.log(name);
+    console.log(event.target.dataset);
     if (type === "int")
       sorted = data.sort((a, b) => Number(a[name]) - Number(b[name]));
     else
@@ -78,10 +79,7 @@ const Data = () => {
         <table className="table">
           <thead>
             <tr>
-              <td data-name="data.userId" data-type="int" onClick={sort}>
-                {/* <button type="button" onClick={() => sort}>
-                  <h3>User Id</h3>
-                </button> */}
+              <td data-name="userId" data-type="int" onClick={sort}>
                 <h3>User Id</h3>
               </td>
               <td data-name="id" data-type="int" onClick={sort}>
